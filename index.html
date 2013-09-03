@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="dragdrop.js"></script>
+	<title>Drag and Drop demo</title>
+
+<style type="text/css">
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#handle {
+	width: 100px;
+	height: 100px;
+	background: #aaa;
+	margin-bottom: 10px;
+}
+
+#droppable {
+	width: 300px;
+	min-height: 100px;
+	background: #eee;
+	padding: 10px;
+}
+
+li {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #000;
+}
+
+.placeholder {
+	border: 1px dashed #000;
+	height: 1.2em;
+}
+
+.draggable {
+	background: rgba(0,0,0,0.2);
+	width: 100px;
+	height: 1.2em;
+	padding: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div id="handle">drag me</div>
+
+<div id="droppable">
+	<ul></ul>
+</div>
+
+<script type="text/javascript">
+function dropped (el) {
+	el._dragInstance = new DragDrop(el, '#droppable', {
+		html: document.getElementById('handle').innerHTML,
+		onDragStart: function () {
+			el.style.display = 'none';
+		},
+		onDrop: dropped
+	});
+}
+
+var dragme = new DragDrop('#handle', '#droppable', {
+		html: document.getElementById('handle').innerHTML,
+		onDrop: dropped
+	});
+</script>
+</body>
+</html>
