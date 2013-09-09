@@ -2,6 +2,7 @@ var DragDrop = (function (window, document) {
 
 	function DragDrop (handle, droppable, options) {
 		this.options = {
+			init: true,
 			touch: true,
 			mouse: true,
 			timeout: 500,
@@ -12,7 +13,6 @@ var DragDrop = (function (window, document) {
 			this.options[i] = options[i];
 		}
 
-		this.handle = typeof handle == 'string' ? document.querySelector(handle) : handle;
 		this.droppable = typeof droppable == 'string' ? document.querySelector(droppable) : droppable;
 
 		// Create the list and the placeholder
@@ -24,15 +24,19 @@ var DragDrop = (function (window, document) {
 		this.placeholder = document.createElement('li');
 		this.placeholder.className = 'placeholder';
 
-		// Are we reordering the list?
-		this.reordering = this.handle.parentNode == this.list;
+		if ( this.options.init ) {
+			this.handle = typeof handle == 'string' ? document.querySelector(handle) : handle;
 
-		if ( this.options.touch ) {
-			this.handle.addEventListener('touchstart', this, false);
-		}
+			// Are we reordering the list?
+			this.reordering = this.handle.parentNode == this.list;
 
-		if ( this.options.mouse ) {
-			this.handle.addEventListener('mousedown', this, false);
+			if ( this.options.touch ) {
+				this.handle.addEventListener('touchstart', this, false);
+			}
+
+			if ( this.options.mouse ) {
+				this.handle.addEventListener('mousedown', this, false);
+			}
 		}
 	}
 
@@ -63,6 +67,10 @@ var DragDrop = (function (window, document) {
 		this.initiated = false;
 		this.lastTarget = null;
 
+		this.dragTimeout = setTimeout(this.init.bind(this, this.options.html, e), this.options.timeout);
+	};
+
+	DragDrop.prototype.init = function (html, e) {
 		if ( this.options.touch ) {
 			document.addEventListener('touchend', this, false);
 		}
@@ -71,10 +79,6 @@ var DragDrop = (function (window, document) {
 			document.addEventListener('mouseup', this, false);
 		}
 
-		this.dragTimeout = setTimeout(this.init.bind(this, this.options.html, e), this.options.timeout);
-	};
-
-	DragDrop.prototype.init = function (html, e) {
 		// Create draggable
 		this.draggable = document.createElement('div');
 		this.draggable.className = 'draggable';
@@ -204,6 +208,7 @@ var DragDrop = (function (window, document) {
 		document.removeEventListener('touchstart', this, false);
 		document.removeEventListener('touchmove', this, false);
 		document.removeEventListener('touchend', this, false);
+
 		document.removeEventListener('mousedown', this, false);
 		document.removeEventListener('mousemove', this, false);
 		document.removeEventListener('mouseup', this, false);

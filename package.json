@@ -1,0 +1,15 @@
+{
+  "name": "dragdrop",
+  "description": "Simple mobile+desktop drag and drop",
+  "version": "0.1",
+  "homepage": "http://hyperaud.io",
+  "author": "Matteo Spinelli <matteo@cubiq.org> (http://cubiq.org)",
+  "keywords": [
+    "drag",
+    "drop"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyperaudio-dev/dragdrop"
+  }
+}

@@ -57,7 +57,7 @@ li {
 <script type="text/javascript">
 function dropped (el) {
 	el._dragInstance = new DragDrop(el, '#droppable', {
-		html: document.getElementById('handle').innerHTML,
+		html: el.innerHTML,
 		onDragStart: function () {
 			el.style.display = 'none';
 		},
