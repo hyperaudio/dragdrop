@@ -41,6 +41,7 @@ var DragDrop = (function (window, document) {
 	}
 
 	DragDrop.prototype.handleEvent = function (e) {
+		// jshint -W086
 		switch (e.type) {
 			case 'mousedown':
 				if ( e.which !== 1 ) {
@@ -58,6 +59,7 @@ var DragDrop = (function (window, document) {
 				this.end(e);
 				break;
 		}
+		// jshint +W086
 	};
 
 	DragDrop.prototype.start = function (e) {
@@ -212,7 +214,7 @@ var DragDrop = (function (window, document) {
 		document.removeEventListener('mousedown', this, false);
 		document.removeEventListener('mousemove', this, false);
 		document.removeEventListener('mouseup', this, false);
-	}
+	};
 
 	return DragDrop;
 })(window, document);
