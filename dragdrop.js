@@ -65,20 +65,30 @@ var DragDrop = (function (window, document) {
 	DragDrop.prototype.start = function (e) {
 		e.preventDefault();
 
-		clearTimeout(this.dragTimeout);
-		this.initiated = false;
-		this.lastTarget = null;
-
-		this.dragTimeout = setTimeout(this.init.bind(this, this.options.html, e), this.options.timeout);
-	};
-
-	DragDrop.prototype.init = function (html, e) {
 		if ( this.options.touch ) {
 			document.addEventListener('touchend', this, false);
 		}
 
 		if ( this.options.mouse ) {
 			document.addEventListener('mouseup', this, false);
+		}
+
+		clearTimeout(this.dragTimeout);
+		this.initiated = false;
+		this.lastTarget = null;
+
+		this.dragTimeout = setTimeout(this.init.bind(this, this.options.html || this.handle.innerHTML, e), this.options.timeout);
+	};
+
+	DragDrop.prototype.init = function (html, e) {
+		if ( !this.options.init ) {
+			if ( this.options.touch ) {
+				document.addEventListener('touchend', this, false);
+			}
+
+			if ( this.options.mouse ) {
+				document.addEventListener('mouseup', this, false);
+			}
 		}
 
 		// Create draggable
@@ -126,6 +136,7 @@ var DragDrop = (function (window, document) {
 
 	DragDrop.prototype.move = function (e) {
 		e.preventDefault();
+		e.stopPropagation();
 
 		var point = e.changedTouches ? e.changedTouches[0] : e;
 		var target = e.touches ? document.elementFromPoint(point.pageX, point.pageY) : point.target;
@@ -147,7 +158,7 @@ var DragDrop = (function (window, document) {
 			return;
 		}
 
-		if ( target.className == 'item' ) {
+		if ( /(^|\s)item(\s|$)/.test(target.className) ) {
 			var items = this.list.querySelectorAll('.item'),
 				i = 0, l = items.length;
 			for ( ; i < l; i++ ) {
