@@ -1,7 +1,7 @@
 {
   "name": "dragdrop",
   "description": "Simple mobile+desktop drag and drop",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "http://hyperaud.io",
   "author": "Matteo Spinelli <matteo@cubiq.org> (http://cubiq.org)",
   "keywords": [

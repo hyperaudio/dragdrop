@@ -26,6 +26,7 @@ var DragDrop = (function (window, document) {
 
 		if ( this.options.init ) {
 			this.handle = typeof handle == 'string' ? document.querySelector(handle) : handle;
+			this.handleClassName = this.handle.className;
 
 			// Are we reordering the list?
 			this.reordering = this.handle.parentNode == this.list;
@@ -206,7 +207,7 @@ var DragDrop = (function (window, document) {
 		}
 
 		var el = document.createElement('li');
-		el.className = 'item';
+		el.className = this.handleClassName || 'item';
 		el.innerHTML = html;
 
 		this.list.insertBefore(el, this.placeholder);
