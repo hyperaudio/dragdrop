@@ -64,6 +64,10 @@ var DragDrop = (function (window, document) {
 	};
 
 	DragDrop.prototype.start = function (e) {
+		if ( /INPUT/.test(e.target.tagName) ) {
+			return;
+		}
+
 		e.preventDefault();
 
 		if ( this.options.touch ) {
@@ -187,7 +191,7 @@ var DragDrop = (function (window, document) {
 		var point = e.changedTouches ? e.changedTouches[0] : e;
 		var target = e.touches ? document.elementFromPoint(point.pageX, point.pageY) : point.target;
 
-		var html = this.draggable.innerHTML;
+		var html = this.options.html ? this.handle.innerHTML : this.draggable.innerHTML;
 		this.draggable.parentNode.removeChild(this.draggable);
 		this.draggable = null;
 
