@@ -6,7 +6,8 @@ var DragDrop = (function (window, document) {
 			touch: true,
 			mouse: true,
 			timeout: 500,
-			html: ''
+			html: '',
+			draggableClass: ''
 		};
 
 		for ( var i in options ) {
@@ -98,7 +99,7 @@ var DragDrop = (function (window, document) {
 
 		// Create draggable
 		this.draggable = document.createElement('div');
-		this.draggable.className = 'draggable';
+		this.draggable.className = 'draggable' + ' ' + this.options.draggableClass;
 		this.draggableStyle = this.draggable.style;
 		this.draggableStyle.cssText = 'position:absolute;z-index:1000;pointer-events:none;left:-99999px';
 		this.draggable.innerHTML = html;
