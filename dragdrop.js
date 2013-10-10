@@ -192,26 +192,25 @@ var DragDrop = (function (window, document) {
 		this.draggable.parentNode.removeChild(this.draggable);
 		this.draggable = null;
 
+		// we dropped outside of the draggable area, so exit
+		if ( !this.list.querySelector('.placeholder') ) {
+			return;
+		}
+
 		var el;
 
-		// if we are reordering, remove the original element
+		// if we are reordering, reuse the original element
 		if ( this.reordering ) {
 			el = this.handle;
+			this.handle.style.display = '';
 		} else {
 			el = document.createElement('li');
 			el.className = this.handleClassName || 'item';
 			el.innerHTML = html;
 		}
 
-		// we dropped outside of the draggable area, so exit
-		if ( !this.list.querySelector('.placeholder') ) {
-			return;
-		}
-
 		this.list.insertBefore(el, this.placeholder);
 		this.placeholder.parentNode.removeChild(this.placeholder);
-
-		this.handle.style.display = '';
 
 		if ( this.options.onDrop ) {
 			this.options.onDrop.call(this, el);
