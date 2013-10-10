@@ -7,7 +7,9 @@ var DragDrop = (function (window, document) {
 			mouse: true,
 			timeout: 500,
 			html: '',
-			draggableClass: ''
+			draggableClass: '',
+			containerTag: 'article',
+			blockTag: 'section'
 		};
 
 		for ( var i in options ) {
@@ -17,12 +19,12 @@ var DragDrop = (function (window, document) {
 		this.droppable = typeof droppable == 'string' ? document.querySelector(droppable) : droppable;
 
 		// Create the list and the placeholder
-		this.list = this.droppable.querySelector('ul');
+		this.list = this.droppable.querySelector(this.options.containerTag);
 		if ( !this.list ) {
-			this.list = document.createElement('ul');
+			this.list = document.createElement(this.options.containerTag);
 			this.droppable.appendChild(this.list);
 		}
-		this.placeholder = document.createElement('li');
+		this.placeholder = document.createElement(this.options.blockTag);
 		this.placeholder.className = 'placeholder';
 
 		if ( this.options.init ) {
@@ -204,7 +206,7 @@ var DragDrop = (function (window, document) {
 			el = this.handle;
 			this.handle.style.display = '';
 		} else {
-			el = document.createElement('li');
+			el = document.createElement(this.options.blockTag);
 			el.className = this.handleClassName || 'item';
 			el.innerHTML = html;
 		}
