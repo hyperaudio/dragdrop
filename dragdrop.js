@@ -155,10 +155,6 @@ var DragDrop = (function (window, document) {
 
 		this.lastTarget = target;
 
-		if ( this.list.querySelector('.placeholder') ) {
-			this.list.removeChild(this.placeholder);
-		}
-
 		if ( target == this.droppable ) {
 			this.list.appendChild(this.placeholder);
 			return;
@@ -196,14 +192,15 @@ var DragDrop = (function (window, document) {
 		this.draggable.parentNode.removeChild(this.draggable);
 		this.draggable = null;
 
+		var el;
+
 		// if we are reordering, remove the original element
 		if ( this.reordering ) {
-			if ( this.handle._dragInstance ) {
-				this.handle._dragInstance.destroy();
-				this.handle._dragInstance = null;
-			}
-
-			this.handle.parentNode.removeChild(this.handle);
+			el = this.handle;
+		} else {
+			el = document.createElement('li');
+			el.className = this.handleClassName || 'item';
+			el.innerHTML = html;
 		}
 
 		// we dropped outside of the draggable area, so exit
@@ -211,12 +208,10 @@ var DragDrop = (function (window, document) {
 			return;
 		}
 
-		var el = document.createElement('li');
-		el.className = this.handleClassName || 'item';
-		el.innerHTML = html;
-
 		this.list.insertBefore(el, this.placeholder);
 		this.placeholder.parentNode.removeChild(this.placeholder);
+
+		this.handle.style.display = '';
 
 		if ( this.options.onDrop ) {
 			this.options.onDrop.call(this, el);
