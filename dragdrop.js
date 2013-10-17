@@ -67,7 +67,10 @@ var DragDrop = (function (window, document) {
 	};
 
 	DragDrop.prototype.start = function (e) {
-		if ( /INPUT/.test(e.target.tagName) ) {
+		var point = e.touches ? e.touches[0] : e,
+			target = e.touches ? document.elementFromPoint(point.pageX, point.pageY) : point.target;
+
+		if ( /INPUT/.test(target.tagName) ) {
 			return;
 		}
 
