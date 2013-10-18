@@ -168,12 +168,19 @@ var DragDrop = (function (window, document) {
 		if ( /(^|\s)item(\s|$)/.test(target.className) ) {
 			var items = this.list.querySelectorAll('.item'),
 				i = 0, l = items.length;
+
 			for ( ; i < l; i++ ) {
 				if ( target == items[i] ) {
 					this.list.insertBefore(this.placeholder, items[i]);
 					break;
 				}
 			}
+
+			return;
+		}
+
+		if ( this.list.querySelector('.placeholder') ) {
+			this.placeholder.parentNode.removeChild(this.placeholder);
 		}
 	};
 
@@ -197,8 +204,17 @@ var DragDrop = (function (window, document) {
 		this.draggable.parentNode.removeChild(this.draggable);
 		this.draggable = null;
 
-		// we dropped outside of the draggable area, so exit
+		// we dropped outside of the draggable area
 		if ( !this.list.querySelector('.placeholder') ) {
+
+			if ( this.reordering ) {
+				this.handle.parentNode.removeChild(this.handle);
+			}
+
+			if ( this.options.onDrop ) {
+				this.options.onDrop.call(this, null);
+			}
+
 			return;
 		}
 
